@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreimal um den Weihnachtsbaum - Frage 1</title>
+    <style>
+        /* * Modern Christmas Theme Styling with Festive Background and Snow Animation */
+
+        :root {
+            --cranberry-red: #9e2a31; /* Deep Red */
+            --forest-green: #1a533f; /* Deep Green */
+            --soft-gold: #f8c96c; /* Muted Gold */
+            --background-snow: #f4f7f6;
+            --card-white: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.05);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            transition: background 0.5s ease;
+
+            /* Festive Background Image */
+            background-image: url('https://unsplash.com/photos/zh7GEuORbUw/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzYyNzk1NjAwfA&force=true'); /* A nice, modern Christmas forest/scene */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed; /* Keeps background fixed during scroll if content overflows */
+            position: relative; /* Needed for overlay and snow */
+            overflow: hidden; /* To prevent snow from going beyond body bounds */
+        }
+
+        /* Background Overlay for readability */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent white overlay */
+            backdrop-filter: blur(2px); /* Optional: slight blur for depth */
+            z-index: 1; /* Below the container, above the background image */
+        }
+
+        /* Snow Animation Container */
+        .snow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through */
+            z-index: 2; /* Above the overlay and background */
+            overflow: hidden; /* Contains the snow particles */
+        }
+
+        .snowflake {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: snowfall linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(100vh) translateX(20px); /* Slight horizontal drift */
+                opacity: 0;
+            }
+        }
+
+        /* --- Existing Modern Design Styles (Slight adjustments for z-index) --- */
+
+        .container {
+            background-color: var(--card-white);
+            margin: 0 120px 0 120px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px var(--shadow-medium), 0 5px 15px var(--shadow-light);
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            z-index: 3; /* Ensure container is above overlay and snow */
+            position: relative; /* To ensure z-index works */
+        }
+
+        h1 {
+            color: var(--cranberry-red);
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--forest-green);
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 400;
+        }
+
+        #question-text {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        #answer-input {
+            width: calc(100% - 30px);
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #answer-input:focus {
+            border-color: var(--soft-gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(248, 201, 108, 0.3);
+        }
+
+        #submit-button {
+            background: linear-gradient(90deg, var(--cranberry-red) 0%, #b8323a 100%);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(158, 42, 49, 0.3);
+            transition: all 0.2s ease-in-out;
+            letter-spacing: 0.5px;
+        }
+
+        #submit-button:hover {
+            background: linear-gradient(90deg, #b8323a 0%, var(--cranberry-red) 100%);
+            box-shadow: 0 4px 10px rgba(158, 42, 49, 0.4);
+            transform: translateY(-1px);
+        }
+
+        #submit-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(158, 42, 49, 0.5);
+        }
+
+        #result-area {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        #feedback-message {
+            font-size: 1.1em;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .correct {
+            background: linear-gradient(45deg, var(--forest-green), #2a886a);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 83, 63, 0.2);
+        }
+
+        .incorrect {
+            background: linear-gradient(45deg, var(--cranberry-red), #c74c52);
+            color: white;
+            box-shadow: 0 4px 10px rgba(158, 42, 49, 0.2);
+        }
+
+        #success-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            border: 4px solid var(--soft-gold);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+            display: none;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        #success-image:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+<div class="snow-container"></div>
+
+<div class="container">
+    <h1>Dreimal um den Weihnachtsbaum</h1>
+    <h2>🎄</h2>
+    <p id="question-text">Wann ist unser Jahrestag? (tt.mm.jj)</p>
+
+    <input type="text" id="answer-input" placeholder="Antwort eingeben..." autocomplete="off">
+    <button id="submit-button" onclick="checkAnswer()">Antwort übermitteln</button>
+
+    <div id="result-area">
+        <p id="feedback-message"></p>
+        <img id="success-image"
+             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/800px-Cat_August_2010-4.jpg"
+             alt="Success Image: The code A">
+    </div>
+</div>
+
+<script>
+    const inputField = document.getElementById('answer-input');
+    const feedbackMessage = document.getElementById('feedback-message');
+    const successImage = document.getElementById('success-image');
+    const snowContainer = document.querySelector('.snow-container');
+
+    // Function to generate snowflakes
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowContainer.appendChild(snowflake);
+
+        // Randomize size and animation duration
+        const size = Math.random() * 5 + 2; // 2px to 7px
+        snowflake.style.width = `${size}px`;
+        snowflake.style.height = `${size}px`;
+        snowflake.style.left = `${Math.random() * 100}vw`;
+        snowflake.style.animationDuration = `${Math.random() * 10 + 5}s`; // 5 to 15 seconds
+        snowflake.style.animationDelay = `${Math.random() * 5}s`; // Stagger animation start
+    }
+
+    // Create a good number of snowflakes
+    for (let i = 0; i < 50; i++) { // You can adjust this number for more/less snow
+        createSnowflake();
+    }
+
+
+    function checkAnswer() {
+        const userAnswer = inputField.value.trim().toLowerCase();
+
+        feedbackMessage.textContent = '';
+        feedbackMessage.className = '';
+        successImage.style.display = 'none';
+
+        if (userAnswer === '10.10.10' || userAnswer === '10.10.2010') {
+            feedbackMessage.textContent = '✅ Richtig! Hier ist deine Belohnung!';
+            feedbackMessage.classList.add('correct');
+            successImage.style.display = 'block';
+        } else {
+            feedbackMessage.textContent = '❌ Leider nein, probier\'s doch noch einmal!';
+            feedbackMessage.classList.add('incorrect');
+        }
+    }
+
+    inputField.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            checkAnswer();
+        }
+    });
+</script>
+
+</body>
+</html>
